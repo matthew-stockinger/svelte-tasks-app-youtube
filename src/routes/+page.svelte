@@ -1,4 +1,4 @@
-<!-- bookmark 7:54 -->
+<!-- bookmark 9:47 -->
 
 <script lang="ts">
 	import TasksForm from './tasks-form.svelte';
@@ -8,6 +8,8 @@
 	let message = 'Tasks App';
 	let tasks = $state<Task[]>([]);
 
+	$inspect(tasks);
+
 	function addTask(newTask: string) {
 		tasks.push({
 			id: crypto.randomUUID(),
@@ -15,12 +17,16 @@
 			done: false
 		});
 	}
+
+	function toggleDone(task: Task) {
+		task.done = !task.done;
+	}
 </script>
 
 <main>
 	<h1>{message}</h1>
 	<TasksForm {addTask} />
-	<TasksList {tasks} />
+	<TasksList {tasks} {toggleDone} />
 </main>
 
 <style>
