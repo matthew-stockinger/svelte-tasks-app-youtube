@@ -16,8 +16,14 @@
 					checked={task.done}
 					onchange={() => toggleDone(task)}
 				/>
-				{task.title}
+				<span class:done={task.done}>{task.title}</span>
 			</label>
 		</article>
 	{/each}
 </section>
+
+<style>
+	.done {
+		text-decoration: line-through;
+	}
+</style>
