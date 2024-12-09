@@ -9,7 +9,7 @@
 
 <section>
 	{#each tasks as task}
-		<article>
+		<article class="task">
 			<label>
 				<input
 					type="checkbox"
@@ -18,6 +18,7 @@
 				/>
 				<span class:done={task.done}>{task.title}</span>
 			</label>
+			<button class="outline">Remove</button>
 		</article>
 	{/each}
 </section>
@@ -25,5 +26,11 @@
 <style>
 	.done {
 		text-decoration: line-through;
+	}
+
+	.task {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 </style>
