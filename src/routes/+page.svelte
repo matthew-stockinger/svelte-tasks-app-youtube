@@ -7,6 +7,7 @@
 
 	let message = 'Tasks App';
 	let tasks = $state<Task[]>([]);
+	let totalDone = $derived(tasks.filter((task) => task.done).length);
 
 	$inspect(tasks);
 
@@ -26,6 +27,7 @@
 <main>
 	<h1>{message}</h1>
 	<TasksForm {addTask} />
+	<p>{totalDone} / {tasks.length} tasks completed</p>
 	<TasksList {tasks} {toggleDone} />
 </main>
 
