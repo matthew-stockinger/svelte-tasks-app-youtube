@@ -1,4 +1,4 @@
-<!-- bookmark 12:12 -->
+<!-- bookmark 13:00 -->
 
 <script lang="ts">
 	import TasksForm from './tasks-form.svelte';
@@ -22,13 +22,17 @@
 	function toggleDone(task: Task) {
 		task.done = !task.done;
 	}
+
+	function removeTask(index: number) {
+		tasks.splice(index, 1);
+	}
 </script>
 
 <main>
 	<h1>{message}</h1>
 	<TasksForm {addTask} />
 	<p>{totalDone} / {tasks.length} tasks completed</p>
-	<TasksList {tasks} {toggleDone} />
+	<TasksList {tasks} {toggleDone} {removeTask} />
 </main>
 
 <style>

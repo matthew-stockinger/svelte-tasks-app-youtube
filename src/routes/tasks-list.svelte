@@ -3,12 +3,17 @@
 
 	let {
 		tasks,
-		toggleDone
-	}: { tasks: Task[]; toggleDone: (task: Task) => void } = $props();
+		toggleDone,
+		removeTask
+	}: {
+		tasks: Task[];
+		toggleDone: (task: Task) => void;
+		removeTask: (index: number) => void;
+	} = $props();
 </script>
 
 <section>
-	{#each tasks as task}
+	{#each tasks as task, index}
 		<article class="task">
 			<label>
 				<input
@@ -18,7 +23,7 @@
 				/>
 				<span class:done={task.done}>{task.title}</span>
 			</label>
-			<button class="outline">Remove</button>
+			<button onclick={() => removeTask(index)} class="outline">Remove</button>
 		</article>
 	{/each}
 </section>
