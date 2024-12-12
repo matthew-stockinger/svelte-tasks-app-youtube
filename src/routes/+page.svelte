@@ -1,5 +1,4 @@
-<!-- bookmark 15:43 -->
-<!-- need to rewrite filteredTasks to $derived.by -->
+<!-- bookmark 20:10 -->
 
 <script lang="ts">
 	import TasksForm from './tasks-form.svelte';
@@ -42,6 +41,14 @@
 	}
 </script>
 
+{#snippet filterButton(filter: Filter)}
+	<button
+		class="secondary capitalized"
+		class:contrast={currentFilter === filter}
+		onclick={() => (currentFilter = filter)}>{filter}</button
+	>
+{/snippet}
+
 <main>
 	<h1>{message}</h1>
 	<TasksForm {addTask} />
@@ -54,21 +61,9 @@
 	</p>
 	{#if tasks.length}
 		<section class="button-container">
-			<button
-				class="secondary"
-				class:contrast={currentFilter === 'all'}
-				onclick={() => (currentFilter = 'all')}>All</button
-			>
-			<button
-				class="secondary"
-				class:contrast={currentFilter === 'todo'}
-				onclick={() => (currentFilter = 'todo')}>Todo</button
-			>
-			<button
-				class="secondary"
-				class:contrast={currentFilter === 'done'}
-				onclick={() => (currentFilter = 'done')}>Done</button
-			>
+			{@render filterButton('all')}
+			{@render filterButton('todo')}
+			{@render filterButton('done')}
 		</section>
 	{/if}
 	<TasksList tasks={filteredTasks} {toggleDone} {removeTask} />
@@ -84,5 +79,9 @@
 		display: flex;
 		justify-content: end;
 		gap: 0.5rem;
+	}
+
+	.capitalized {
+		text-transform: capitalize;
 	}
 </style>
