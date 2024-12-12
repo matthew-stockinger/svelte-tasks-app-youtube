@@ -1,5 +1,5 @@
 <!-- bookmark 15:43 -->
- <!-- need to rewrite filteredTasks to $derived.by -->
+<!-- need to rewrite filteredTasks to $derived.by -->
 
 <script lang="ts">
 	import TasksForm from './tasks-form.svelte';
@@ -10,17 +10,17 @@
 	let currentFilter = $state<Filter>('all');
 	let tasks = $state<Task[]>([]);
 	let totalDone = $derived(tasks.filter((task) => task.done).length);
-	let filteredTasks = $derived(
-		tasks.filter((task) => {
-			if (currentFilter === 'all') {
-				return true;
-			} else if (currentFilter === 'done') {
-				return task.done;
-			} else {
-				return !task.done;
-			}
-		})
-	);
+	let filteredTasks = $derived.by(() => {
+		if (currentFilter === 'all') {
+			return tasks;
+		} else if (currentFilter === 'done') {
+			return tasks.filter((task) => task.done);
+		} else if (currentFilter === 'todo') {
+			return tasks.filter((task) => !task.done);
+		}
+
+		return tasks;
+	});
 
 	$inspect(currentFilter);
 
@@ -36,7 +36,8 @@
 		task.done = !task.done;
 	}
 
-	function removeTask(index: number) {
+	function removeTask(id: string) {
+		let index = tasks.findIndex((task) => task.id === id);
 		tasks.splice(index, 1);
 	}
 </script>
@@ -53,14 +54,20 @@
 	</p>
 	{#if tasks.length}
 		<section class="button-container">
-			<button class="secondary" onclick={() => (currentFilter = 'all')}
-				>All</button
+			<button
+				class="secondary"
+				class:contrast={currentFilter === 'all'}
+				onclick={() => (currentFilter = 'all')}>All</button
 			>
-			<button class="secondary" onclick={() => (currentFilter = 'todo')}
-				>Todo</button
+			<button
+				class="secondary"
+				class:contrast={currentFilter === 'todo'}
+				onclick={() => (currentFilter = 'todo')}>Todo</button
 			>
-			<button class="secondary" onclick={() => (currentFilter = 'done')}
-				>Done</button
+			<button
+				class="secondary"
+				class:contrast={currentFilter === 'done'}
+				onclick={() => (currentFilter = 'done')}>Done</button
 			>
 		</section>
 	{/if}
